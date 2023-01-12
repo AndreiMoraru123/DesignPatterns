@@ -2,4 +2,4 @@
 
 Design Patterns implemented in C++/Python. 
 
-From (refactoring.guru)[refactoring.guru]
+From refactoring.guru.
