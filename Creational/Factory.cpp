@@ -13,6 +13,7 @@
  * all concrete products must implement
  */
 
+#include <string>
 #include <iostream>
 
 
