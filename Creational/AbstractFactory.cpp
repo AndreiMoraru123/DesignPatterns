@@ -5,6 +5,8 @@
 
 #include <string>
 #include <iostream>
+#include "../SmartPointer.h"
+
 
 class AbstractProductA {
 public:
@@ -100,8 +102,8 @@ public:
 
 class AbstractFactory {
 public:
-    [[nodiscard]] virtual AbstractProductA *CreateProductA() const = 0;
-    [[nodiscard]] virtual AbstractProductB *CreateProductB() const = 0;
+    [[nodiscard]] virtual SmartPtr<AbstractProductA> CreateProductA() const = 0;
+    [[nodiscard]] virtual SmartPtr<AbstractProductB> CreateProductB() const = 0;
 };
 
 /*
@@ -113,11 +115,11 @@ public:
 
 class ConcreteFactory1 : public AbstractFactory {
 public:
-    [[nodiscard]] AbstractProductA *CreateProductA() const override {
-        return new ConcreteProductA1();
+    [[nodiscard]] SmartPtr<AbstractProductA> CreateProductA() const override {
+        return SmartPtr<AbstractProductA>(new ConcreteProductA1());
     }
-    [[nodiscard]] AbstractProductB *CreateProductB() const override {
-        return new ConcreteProductB1();
+    [[nodiscard]] SmartPtr<AbstractProductB> CreateProductB() const override {
+        return SmartPtr<AbstractProductB>(new ConcreteProductB1());
     }
 };
 
@@ -127,11 +129,11 @@ public:
 
 class ConcreteFactory2 : public AbstractFactory {
 public:
-    [[nodiscard]] AbstractProductA *CreateProductA() const override {
-        return new ConcreteProductA2();
+    [[nodiscard]] SmartPtr<AbstractProductA> CreateProductA() const override {
+        return SmartPtr<AbstractProductA>(new ConcreteProductA2());
     }
-    [[nodiscard]] AbstractProductB *CreateProductB() const override {
-        return new ConcreteProductB2();
+    [[nodiscard]] SmartPtr<AbstractProductB> CreateProductB() const override {
+        return SmartPtr<AbstractProductB>(new ConcreteProductB2());
     }
 };
 
@@ -142,23 +144,19 @@ public:
  */
 
 void ClientCode(const AbstractFactory &factory) {
-    const AbstractProductA *product_a = factory.CreateProductA();
-    const AbstractProductB *product_b = factory.CreateProductB();
+    const SmartPtr<AbstractProductA> product_a = factory.CreateProductA();
+    const SmartPtr<AbstractProductB> product_b = factory.CreateProductB();
     std::cout << product_b->UsefulFunctionB() << std::endl;
     std::cout << product_b->AnotherUsefulFunctionB(*product_a) << std::endl;
-    delete product_a;
-    delete product_b;
 }
 
 
 int main() {
     std::cout << "Client: Testing client code with the first factory type:\n";
-    auto *f1 = new ConcreteFactory1();
+    SmartPtr<AbstractFactory> f1(new ConcreteFactory1());
     ClientCode(*f1);
-    delete f1;
     std::cout << std::endl;
     std::cout << "Client: Testing the same client code with the second factory type:\n";
-    auto *f2 = new ConcreteFactory2();
+    SmartPtr<AbstractFactory> f2(new ConcreteFactory2());
     ClientCode(*f2);
-    delete f2;
 }

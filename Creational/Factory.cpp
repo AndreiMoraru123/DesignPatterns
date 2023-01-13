@@ -15,6 +15,7 @@
 
 #include <string>
 #include <iostream>
+#include "../SmartPointer.h"
 
 
 class Product {
@@ -53,7 +54,7 @@ class Creator {
      */
 public:
     virtual ~Creator() = default;
-    [[nodiscard]] virtual Product* FactoryMethod() const = 0;
+    [[nodiscard]] virtual SmartPtr<Product> FactoryMethod() const = 0;
     /*
      * Also note that, despite its name, the Creator's primary responsibility is
      *  not creating products. Usually, it contains some core business logic that
@@ -63,10 +64,9 @@ public:
      */
     [[nodiscard]] std::string SomeOperation() const {
         // Call the factory method to create a Product object.
-        Product* product = this->FactoryMethod();
+        SmartPtr<Product> product = this->FactoryMethod();
         // Now, use the product.
         std::string result = "Creator: The same creator's code has just worked with " + product->Operation();
-        delete product;
         return result;
     }
 };
@@ -85,16 +85,16 @@ class ConcreteCreator1: public Creator {
      * classes.
      */
 public:
-    [[nodiscard]] Product *FactoryMethod() const override {
-        return new ConcreteProduct1();
+    [[nodiscard]] SmartPtr<Product> FactoryMethod() const override {
+        return SmartPtr<Product>(new ConcreteProduct1());
     }
 };
 
 
 class ConcreteCreator2: public Creator {
 public:
-    [[nodiscard]] Product *FactoryMethod() const override {
-        return new ConcreteProduct2();
+    [[nodiscard]] SmartPtr<Product> FactoryMethod() const override {
+        return SmartPtr<Product>(new ConcreteProduct2());
     }
 };
 
@@ -117,13 +117,10 @@ void ClientCode(const Creator& creator) {
 
 int main() {
     std::cout << "App: Launched with the ConcreteCreator1. \n";
-    Creator* creator = new ConcreteCreator1();
+    SmartPtr<Creator> creator = SmartPtr<Creator>(new ConcreteCreator1());
     ClientCode(*creator);
     std::cout << std::endl;
     std::cout << "App: Launched with the ConcreteCreator2. \n";
-    Creator* creator2 = new ConcreteCreator2();
+    SmartPtr<Creator> creator2 = SmartPtr<Creator>(new ConcreteCreator2());
     ClientCode(*creator2);
-
-    delete creator;
-    delete creator2;
 }

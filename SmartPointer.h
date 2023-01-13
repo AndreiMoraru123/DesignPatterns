@@ -39,6 +39,16 @@ public:
         }
         return *this;
     }
+
+    // Move operator
+    SmartPtr<T> &operator = (SmartPtr<T>&& other)  noexcept {
+        if (this != &other) {
+            delete ptr;
+            ptr = other.ptr;
+            other.ptr = nullptr;
+        }
+        return *this;
+    }
 };
 
 #endif//DESIGNPATTERNS_SMARTPOINTER_H
