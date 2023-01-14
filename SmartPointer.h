@@ -7,7 +7,7 @@
 
 #include <typeinfo>
 #include <utility>
-#include<cstddef>
+#include <cstddef>
 
 template <class T>
 class SmartPtr {
@@ -21,7 +21,6 @@ public:
 
     // The move constructor takes the ownership of the pointer from the rvalue reference
     // It is used to move the value of a temporary object of type T into a SmartPtr
-    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     explicit SmartPtr(T&& other) : ptr(new T(std::move(other))), ref_count(new int(1)) {}
 
     // This second move constructor is a move constructor for the smart pointer class itself
@@ -30,7 +29,7 @@ public:
     //          SmartPtr<int> ptr2 = std::move(ptr1);
     SmartPtr(SmartPtr<T>&& other) noexcept : ptr(other.ptr), ref_count(other.ref_count) {
         other.ptr = nullptr;
-        other.ref_count = nullptr;
+        other.ref_count = new int(0);
     }
 
     // Destructor
@@ -56,9 +55,7 @@ public:
     // Used when a new SmartPtr is created from an existing SmartPtr
     // Example: SmartPtr<int> ptr1 = new int(10);
     // SmartPtr<int> ptr2(ptr1);
-    SmartPtr(const SmartPtr<T> &other) {
-        ptr = new T(*other.ptr);
-        ref_count = other.ref_count;
+    SmartPtr(const SmartPtr<T> &other) : ptr(new T(*other.ptr)), ref_count(other.ref_count) {
         ++(*ref_count);
     }
 
@@ -67,7 +64,6 @@ public:
     // Example: SmartPtr<int> ptr1 = new int(10);
     // SmartPtr<int> ptr2 = new int(20);
     // ptr2 = ptr1;
-    // Copy assignment operator
     SmartPtr<T> &operator = (const SmartPtr<T> &other) {
         if (this != &other) {
             --(*ref_count);

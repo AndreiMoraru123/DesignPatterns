@@ -17,8 +17,10 @@ public:
         SmartPtr<int> ptr1 = SmartPtr<int>(new int(10));
         SmartPtr<int> ptr2 = std::move(ptr1);
         assert(ptr1.get() == nullptr);
+        assert(ptr1.use_count() == 0);
         assert(ptr2.get() != nullptr);
         assert(ptr2.use_count() == 1);
+        assert(*ptr2.get() == 10);
     }
 
     static void TestCopyConstructor() {
@@ -33,7 +35,7 @@ public:
 
 int main() {
     Test::TestDefaultConstructor();
-//    Test::TestMoveConstructor();
+    Test::TestMoveConstructor();
     Test::TestCopyConstructor();
     return 0;
 }
