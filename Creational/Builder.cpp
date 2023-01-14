@@ -9,9 +9,9 @@
 
 #include "../SmartPointer.h"
 #include <iostream>
-#include <memory>
 #include <string>
 #include <vector>
+
 
 class Product1{
 public:
@@ -109,14 +109,15 @@ public:
 
 class Director{
 private:
-    Builder *builder;
+//    SmartPtr<Builder> builder;
+    Builder* builder;
     /*
      * The Director works with any builder instance that the client code passes
      * to it. This way, the client code may alter the final type of the newly
      * assembled product.
      */
 public:
-    void set_builder(Builder *builder) {
+    void set_builder(Builder* builder) {
         this->builder = builder;
     }
     /*
@@ -142,7 +143,7 @@ public:
  */
 
 void ClientCode(Director &director) {
-    auto builder = std::make_unique<ConcreteBuilder1>();
+    SmartPtr<ConcreteBuilder1> builder = static_cast<SmartPtr<ConcreteBuilder1>>(new ConcreteBuilder1());
     director.set_builder(builder.get());
     std::cout << "Standard basic product:\n";
 
@@ -164,8 +165,7 @@ void ClientCode(Director &director) {
 }
 
 int main() {
-    auto *director = new Director();
+    SmartPtr<Director> director = static_cast<SmartPtr<Director>>(new Director());
     ClientCode(*director);
-    delete director;
     return 0;
 }
