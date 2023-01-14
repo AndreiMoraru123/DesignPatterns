@@ -12,8 +12,8 @@
 template <class T>
 class SmartPtr {
     T *ptr;
-    int *ref_count;
 public:
+    int *ref_count;
     // Constructors
     // The default constructor initializes the pointer with nullptr
     // Example: SmartPtr<int> ptr;
@@ -34,8 +34,6 @@ public:
 
     // Destructor
     // This is the bread and butter of the smart pointer
-//    ~SmartPtr() { delete(ptr); }
-
     ~SmartPtr() {
         --(*ref_count);
         if(*ref_count == 0) {
@@ -94,11 +92,9 @@ public:
             ref_count = other.ref_count;
             other.ptr = nullptr;
             other.ref_count = new int(1);
-            ++(*ref_count);
         }
         return *this;
     }
-
 
     // Dynamic cast
     // Used to cast a SmartPtr to a different type
@@ -108,7 +104,10 @@ public:
     SmartPtr<U> dynamicCast() {
         U* newPtr = dynamic_cast<U*>(ptr);
         if (newPtr != nullptr) {
-            return SmartPtr<U>(newPtr);
+            SmartPtr<U> newSmartPtr(newPtr);
+            newSmartPtr.ref_count = ref_count; // share the ref_count with the original SmartPtr
+            ++(*ref_count); // increment the ref_count
+            return newSmartPtr;
         }
         throw std::bad_cast();
     }
@@ -121,9 +120,12 @@ public:
     SmartPtr<U> staticCast() {
         U* newPtr = static_cast<U*>(ptr);
         if (newPtr != nullptr) {
-            return SmartPtr<U>(newPtr);
+            SmartPtr<U> newSmartPtr(newPtr);
+            newSmartPtr.ref_count = ref_count; // share the ref_count with the original SmartPtr
+            ++(*ref_count); // increment the ref_count
+            return newSmartPtr;
         }
-        return SmartPtr<U>();
+        throw std::bad_cast();
     }
 
     // Get pointer
