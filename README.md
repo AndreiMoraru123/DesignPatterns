@@ -20,13 +20,13 @@ std::cout << "Use count: " << ptr.use_count(); // Use count: 1
 
 ```cpp
 int* rawPtr = ptr.get();
-std::cout << "Raw pointer: " << rawPtr; // 0x1df5c9315c0
+std::cout << "Raw pointer: " << rawPtr; // Raw pointer: 0x1df5c9315c0
 ```
 
 #### And then get the value back:
 
 ```cpp
-std::cout << "Value: " << *rawPtr << std::endl;
+std::cout << "Value: " << *rawPtr; // Value: 10
 ```
 
 #### When you create a new SmartPtr that point to the same object, then use count will increase:
