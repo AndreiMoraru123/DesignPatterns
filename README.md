@@ -45,7 +45,7 @@ std::cout << "Use count for ptr2: " << ptr2.use_count();  // Use count: 2
 std::cout << "Use count for ptr3: " << ptr3.use_count();  // Use count: 2
 ```
 
-#### Supports casting
+#### Supports casting:
 
 ```cpp
 class Base {
@@ -56,7 +56,7 @@ public:
 class Derived : public Base {};
 ```
 
-#### Static
+#### Static:
 
 ```cpp
 SmartPtr<Base> basePtr = SmartPtr<Base>(new Derived());
@@ -65,7 +65,7 @@ std::cout << "Use count for basePtr: " << basePtr.use_count();  // Use count for
 std::cout << "Use count for derivedPtr: " << derivedPtr.use_count();  // Use count for derivedPtr: 1
 ```
 
-#### Dynamic 
+#### Dynamic: 
 
 ```cpp
   SmartPtr<Derived> derivedPtr2 = basePtr.dynamicCast<Derived>();
