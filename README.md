@@ -29,7 +29,7 @@ std::cout << "Raw pointer: " << rawPtr;  // Raw pointer: 0x1df5c9315c0
 std::cout << "Value: " << *rawPtr;  // Value: 10
 ```
 
-#### When you create a new SmartPtr that point to the same object, then use count will increase:
+#### When you create a new SmartPtr that points to the same object, then use count will increase:
 
 ```cpp
 SmartPtr<int> ptr2 = ptr;
