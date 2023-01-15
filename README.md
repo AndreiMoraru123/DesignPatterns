@@ -71,7 +71,7 @@ std::cout << "Use count for derivedPtr: " << derivedPtr.use_count(); // Use coun
   SmartPtr<Derived> derivedPtr2 = basePtr.dynamicCast<Derived>();
   std::cout << "Use count for basePtr: " << basePtr.use_count(); Use count for basePtr: 1
   std::cout << "Use count for derivedPtr2: " << derivedPtr2.use_count(); Use count for derivedPtr2: 1
-``
+```
 
 > **Warning**
 > These will only work with C++ 17 onwards.
