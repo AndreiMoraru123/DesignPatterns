@@ -2,7 +2,7 @@
 
 Design Patterns implemented in C++, using a custom defined Smart Pointer.
 
-### <u>How to use the Smart Pointer</u>
+### _How to use the Smart Pointer_
 
 #### Allocating an integer to the heap
 
