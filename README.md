@@ -4,6 +4,9 @@ Design Patterns implemented in C++, using a custom defined Smart Pointer.
 
 ## How to use the pointer
 
+```cpp
+#include "SmartPointer.h"
+```
 #### Allocating an integer to the heap
 
 ```cpp
