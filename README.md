@@ -40,10 +40,38 @@ std::cout << "Use count: " << ptr.use_count(); // Use count: 2
 
 ```cpp
 SmartPtr<int> ptr3 = std::move(ptr);
-std::cout << "Use count for ptr: " << ptr.use_count() << std::endl; // Use count: 0
-std::cout << "Use count for ptr2: " << ptr2.use_count() << std::endl; // Use count: 2
-std::cout << "Use count for ptr3: " << ptr3.use_count() << std::endl; // Use count: 2
+std::cout << "Use count for ptr: " << ptr.use_count(); // Use count: 0
+std::cout << "Use count for ptr2: " << ptr2.use_count(); // Use count: 2
+std::cout << "Use count for ptr3: " << ptr3.use_count(); // Use count: 2
 ```
+
+#### Supports casting
+
+```cpp
+class Base {
+public:
+    virtual ~Base() = default;
+};
+
+class Derived : public Base {};
+```
+
+#### Static
+
+```cpp
+SmartPtr<Base> basePtr = SmartPtr<Base>(new Derived());
+SmartPtr<Derived> derivedPtr = basePtr.staticCast<Derived>();
+std::cout << "Use count for basePtr: " << basePtr.use_count(); // Use count for basePtr: 1
+std::cout << "Use count for derivedPtr: " << derivedPtr.use_count(); // Use count for derivedPtr: 1
+```
+
+#### Dynamic 
+
+```cpp
+  SmartPtr<Derived> derivedPtr2 = basePtr.dynamicCast<Derived>();
+  std::cout << "Use count for basePtr: " << basePtr.use_count(); Use count for basePtr: 1
+  std::cout << "Use count for derivedPtr2: " << derivedPtr2.use_count(); Use count for derivedPtr2: 1
+``
 
 > **Warning**
 > These will only work with C++ 17 onwards.
