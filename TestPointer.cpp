@@ -91,6 +91,12 @@ public:
         assert(ptr2.use_count() == 2);
     }
 
+    static void TestNullptr() {
+        SmartPtr<int> ptr = SmartPtr<int>(nullptr);
+        assert(ptr.get() == nullptr);
+        assert(ptr.use_count() == 0);
+    }
+
 };
 
 int main() {
@@ -103,5 +109,5 @@ int main() {
     Test::TestStaticCast();
     Test::TestGet();
     Test::TestUseCount();
-    return 0;
+    Test::TestNullptr();
 }

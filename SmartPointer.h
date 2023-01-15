@@ -144,6 +144,11 @@ public:
     [[nodiscard]] int use_count() const {
         return ptr == nullptr ? 0 : *ref_count;
     }
+
+    // Null pointer check
+    bool operator!() const {
+        return ptr == nullptr;
+    }
 };
 
 #endif//DESIGNPATTERNS_SMARTPOINTER_H
