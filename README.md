@@ -73,10 +73,10 @@ std::cout << "Use count for derivedPtr: " << derivedPtr.use_count();  // Use cou
   std::cout << "Use count for derivedPtr2: " << derivedPtr2.use_count();  // Use count for derivedPtr2: 1
 ```
 
-> **Warning**
-> These will only work with C++ 17 onwards.
-
 > **Note**
+> These will only work with C++ 11 onwards.
+
+> **Warning**
 > May have ridiculous overhead and unnecesarry complexity as they are just for experimentation.
 
 Adapted from [refactoring.guru](https://refactoring.guru/).
