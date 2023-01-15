@@ -94,6 +94,7 @@ public:
     static void TestNullptr() {
         SmartPtr<int> ptr = SmartPtr<int>(nullptr);
         assert(ptr.get() == nullptr);
+        assert(!ptr);
         assert(ptr.use_count() == 0);
     }
 
