@@ -106,7 +106,6 @@ public:
         if (newPtr != nullptr) {
             SmartPtr<U> newSmartPtr(newPtr);
             newSmartPtr.ref_count = ref_count; // share the ref_count with the original SmartPtr
-            ++(*ref_count); // increment the ref_count
             return newSmartPtr;
         }
         throw std::bad_cast();
@@ -122,7 +121,6 @@ public:
         if (newPtr != nullptr) {
             SmartPtr<U> newSmartPtr(newPtr);
             newSmartPtr.ref_count = ref_count; // share the ref_count with the original SmartPtr
-            ++(*ref_count); // increment the ref_count
             return newSmartPtr;
         }
         throw std::bad_cast();

@@ -65,8 +65,8 @@ public:
         SmartPtr<Derived> derivedPtr = basePtr.dynamicCast<Derived>();
         assert(basePtr.get() != nullptr);
         assert(derivedPtr.get() != nullptr);
-        assert(basePtr.use_count() == 2);
-        assert(derivedPtr.use_count() == 2);
+        assert(basePtr.use_count() == 1);
+        assert(derivedPtr.use_count() == 1);
     }
 
     static void TestStaticCast() {
@@ -74,8 +74,8 @@ public:
         SmartPtr<Derived> derivedPtr = basePtr.staticCast<Derived>();
         assert(basePtr.get() != nullptr);
         assert(derivedPtr.get() != nullptr);
-        assert(basePtr.use_count() == 2);
-        assert(derivedPtr.use_count() == 2);
+        assert(basePtr.use_count() == 1);
+        assert(derivedPtr.use_count() == 1);
     }
 
     static void TestGet() {
