@@ -49,17 +49,23 @@ public:
     // like a pointer (useful if T represents a class or struct or union type)
     T *operator->() const { return ptr; }
 
-    // Copy constructor
+    // Shallow Copy constructor
     // Used when a new SmartPtr is created from an existing SmartPtr
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<int> ptr2(ptr1);
-    SmartPtr(const SmartPtr<T> &other) : ptr(new T(*other.ptr)), ref_count(other.ref_count) {
+    // SmartPtr(const SmartPtr<T> &other) : ptr(new T(*other.ptr)), ref_count(other.ref_count) {
+    //  ++(*ref_count);
+    // }
+
+    // Deep Copy constructor
+    // Used when a new SmartPtr is created from an existing SmartPtr
+    SmartPtr(const SmartPtr<T> &other) : ptr(other.ptr), ref_count(other.ref_count) {
         ++(*ref_count);
     }
 
     // Copy assignment operator
     // Used when an existing SmartPtr is assigned the value of another existing SmartPtr
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<int> ptr2 = new int(20);
     // ptr2 = ptr1;
     SmartPtr<T> &operator = (const SmartPtr<T> &other) {
@@ -78,7 +84,7 @@ public:
 
     // Move operator
     // Needed when you want to transfer ownership of a pointer from one SmartPtr to another
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<int> ptr2 = new int(20);
     // ptr2 = std::move(ptr1);
     SmartPtr<T> &operator = (SmartPtr<T>&& other)  noexcept {
@@ -98,7 +104,7 @@ public:
 
     // Dynamic cast
     // Used to cast a SmartPtr to a different type
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<double> ptr2 = ptr1.dynamic_cast<double>();
     template <typename U>
     SmartPtr<U> dynamicCast() {
@@ -113,7 +119,7 @@ public:
 
     // Static cast
     // Used to cast a SmartPtr to a different type
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<double> ptr2 = ptr1.static_cast<double>();
     template <typename U>
     SmartPtr<U> staticCast() {
@@ -128,7 +134,7 @@ public:
 
     // Get pointer
     // Used to get the raw pointer
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // int* ptr2 = ptr1.get();
     T* get() const {
         return ptr;
@@ -136,7 +142,7 @@ public:
 
     // Use count
     // Used to get the number of SmartPtrs that point to the same object
-    // Example: SmartPtr<int> ptr1 = new int(10);
+    // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<int> ptr2 = ptr1;
     // int count = ptr1.use_count();
     [[nodiscard]] int use_count() const {
