@@ -2,11 +2,13 @@
 
 Design Patterns implemented in C++, using a custom defined Smart Pointer.
 
-### How to use the Smart Pointer
+## How to use the pointer
 
 #### Allocating an integer to the heap
 
 ```cpp
+#include "SmartPointer.h"
+
 SmartPtr<int> ptr = SmartPtr<int>(new int(10));
 ```
 
@@ -29,7 +31,7 @@ std::cout << "Raw pointer: " << rawPtr;  // Raw pointer: 0x1df5c9315c0
 std::cout << "Value: " << *rawPtr;  // Value: 10
 ```
 
-#### When you create a new SmartPtr that point to the same object, then use count will increase:
+#### When you create a new SmartPtr that points to the same object, then its use count will increase:
 
 ```cpp
 SmartPtr<int> ptr2 = ptr;
@@ -45,7 +47,7 @@ std::cout << "Use count for ptr2: " << ptr2.use_count();  // Use count: 2
 std::cout << "Use count for ptr3: " << ptr3.use_count();  // Use count: 2
 ```
 
-#### Supports casting
+#### Supports casting:
 
 ```cpp
 class Base {
@@ -56,7 +58,7 @@ public:
 class Derived : public Base {};
 ```
 
-#### Static
+#### Static:
 
 ```cpp
 SmartPtr<Base> basePtr = SmartPtr<Base>(new Derived());
@@ -65,7 +67,7 @@ std::cout << "Use count for basePtr: " << basePtr.use_count();  // Use count for
 std::cout << "Use count for derivedPtr: " << derivedPtr.use_count();  // Use count for derivedPtr: 1
 ```
 
-#### Dynamic 
+#### Dynamic: 
 
 ```cpp
   SmartPtr<Derived> derivedPtr2 = basePtr.dynamicCast<Derived>();
@@ -73,10 +75,12 @@ std::cout << "Use count for derivedPtr: " << derivedPtr.use_count();  // Use cou
   std::cout << "Use count for derivedPtr2: " << derivedPtr2.use_count();  // Use count for derivedPtr2: 1
 ```
 
-> **Warning**
-> These will only work with C++ 17 onwards.
+#### And, most importantly, you do not have to call ```delete```.
 
 > **Note**
+> These will only work with C++ 11 onwards.
+
+> **Warning**
 > May have ridiculous overhead and unnecesarry complexity as they are just for experimentation.
 
 Adapted from [refactoring.guru](https://refactoring.guru/).
