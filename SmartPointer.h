@@ -42,6 +42,17 @@ public:
         }
     }
 
+    // Overloading new operator
+    void* operator new(std::size_t size) {
+        return ::new SmartPtr<T>(static_cast<T*>(::operator new(size)));
+    }
+
+    // Overloading delete operator
+    // Not really necessary, but it's good practice
+    void operator delete(void* ptr) {
+        ::operator delete(ptr);
+    }
+
     // Overloading de-referencing operator
     T &operator*() const { return *ptr; }
 
