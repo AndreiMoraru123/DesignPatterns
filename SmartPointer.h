@@ -35,12 +35,15 @@ public:
     // Destructor
     // This is the bread and butter of the smart pointer
     ~SmartPtr() {
-        --(*ref_count);
-        if(*ref_count == 0) {
-            delete ptr;
-            delete ref_count;
+        if (ptr != nullptr) {
+            --(*ref_count);
+            if(*ref_count == 0) {
+                delete ptr;
+                delete ref_count;
+            }
         }
     }
+
 
     // Overloading == operator
     bool operator==(const SmartPtr<T>& other) const {
