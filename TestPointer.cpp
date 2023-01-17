@@ -98,6 +98,35 @@ public:
         assert(ptr.use_count() == 0);
     }
 
+    static void TestEquality() {
+        SmartPtr<int> ptr1 = SmartPtr<int>(new int(10));
+        SmartPtr<int> ptr2 = ptr1;
+        SmartPtr<int> ptr3 = SmartPtr<int>(new int(10));
+        assert(ptr1 == ptr2);
+        assert(ptr1 != ptr3);
+    }
+
+    static void TestInequality() {
+        SmartPtr<int> ptr1 = SmartPtr<int>(new int(10));
+        SmartPtr<int> ptr2 = ptr1;
+        SmartPtr<int> ptr3 = SmartPtr<int>(new int(10));
+        assert(ptr1 != ptr3);
+        assert(ptr1 == ptr2);
+    }
+
+    static void TestDereference() {
+        SmartPtr<int> ptr = SmartPtr<int>(new int(10));
+        assert(*ptr == 10);
+    }
+
+    static void TestArrow() {
+        class TestClass {
+        public:
+            int value = 10;
+        };
+        SmartPtr<TestClass> ptr = SmartPtr<TestClass>(new TestClass());
+        assert(ptr->value == 10);
+    }
 };
 
 int main() {
@@ -111,4 +140,8 @@ int main() {
     Test::TestGet();
     Test::TestUseCount();
     Test::TestNullptr();
+    Test::TestEquality();
+    Test::TestInequality();
+    Test::TestDereference();
+    Test::TestArrow();
 }
