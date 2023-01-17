@@ -15,7 +15,7 @@ class Component {
      * @var Component
      */
 protected:
-    SmartPtr<Component> parent;
+    SmartPtr<Component> parent_;
     /*
      * Optionally, the base Component can declare an interface for setting and
      * accessing a parent of the component in a tree structure. It can also
@@ -24,10 +24,10 @@ protected:
 public:
     virtual ~Component() = default;
     void SetParent(SmartPtr<Component> parent) {
-        this->parent = SmartPtr<Component> (parent);
+        this->parent_ = SmartPtr<Component> (std::move(parent));
     }
-    SmartPtr<Component> GetParent() const {
-        return this->parent;
+    [[nodiscard]] SmartPtr<Component> GetParent() const {
+        return this->parent_;
     }
 
     /*
@@ -69,7 +69,7 @@ public:
 
 class Leaf : public Component {
 public:
-    std::string Operation() const override {
+    [[nodiscard]] std::string Operation() const override {
         return "Leaf";
     }
 };
@@ -86,7 +86,7 @@ class Composite : public Component {
      * @var Component[]
      */
 protected:
-    std::list<SmartPtr<Component>> children;
+    mutable std::list<SmartPtr<Component>> children;
 
 public:
     /*
@@ -94,8 +94,8 @@ public:
      * complex) to or from its child list.
      */
     void Add(SmartPtr<Component> component) override {
-        this->children.push_back(component);
-        SmartPtr<Component> thisPtr(this);
+        SmartPtr<Component> thisPtr = SmartPtr<Component> (new Composite());
+        children.emplace_back(component);
         component->SetParent(thisPtr);
     }
 
@@ -103,7 +103,6 @@ public:
         this->children.remove(component);
         component->SetParent(SmartPtr<Component>());
     }
-
 
     [[nodiscard]] bool IsComposite() const override {
         return true;
@@ -116,16 +115,16 @@ public:
      * forth, the whole object tree is traversed as a result.
      */
 
-    std::string Operation() const override {
+    [[nodiscard]] std::string Operation() const override {
+        int i = 0;
         std::string result;
-        for (const SmartPtr<Component>& c : children) {
-            if (c == children.back()) {
-                result += c->Operation();
-            } else {
-                result += c->Operation() + "+";
+        for (const SmartPtr<Component>& component : this->children) {
+            result += component->Operation();
+            if (i != this->children.size() - 1) {
+                result += "+";
             }
+            i++;
         }
-
         return "Branch(" + result + ")";
     }
 };
@@ -134,7 +133,7 @@ public:
  * The client code works with all the components via the base interface.
  */
 
-void ClientCode(SmartPtr<Component> component) {
+void ClientCode(const SmartPtr<Component>& component) {
     // ...
     std::cout << "RESULT: " << component->Operation();
     // ...
@@ -146,10 +145,10 @@ void ClientCode(SmartPtr<Component> component) {
  * complex, without depending on their concrete classes.
  */
 
-void ClientCode2(SmartPtr<Component> component1, SmartPtr<Component> component2) {
+void ClientCode2(const SmartPtr<Component>& component1, SmartPtr<Component> component2) {
     // ...
     if (component1->IsComposite()) {
-        component1->Add(component2);
+        component1->Add(std::move(component2));
     }
     std::cout << "RESULT: " << component1->Operation();
     // ...
