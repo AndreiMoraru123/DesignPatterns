@@ -35,7 +35,7 @@ public:
     // Destructor
     // This is the bread and butter of the smart pointer
     ~SmartPtr() {
-        if (!ptr) {
+        if (ptr != nullptr) {
             --(*ref_count);
             if(*ref_count == 0) {
                 delete ptr;
