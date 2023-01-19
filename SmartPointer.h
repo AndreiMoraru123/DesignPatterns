@@ -78,9 +78,9 @@ public:
     // Used when a new SmartPtr is created from an existing SmartPtr
     // Example: SmartPtr<int> ptr1 = SmartPtr<int>(new int(5));
     // SmartPtr<int> ptr2(ptr1);
-//     SmartPtr(const SmartPtr<T> &other) : ptr(new T(*other.ptr)), ref_count(other.ref_count) {
-//      ++(*ref_count);
-//     }
+    // SmartPtr(const SmartPtr<T> &other) : ptr(new T(*other.ptr)), ref_count(other.ref_count) {
+    //  ++(*ref_count);
+    // }
 
     // Deep Copy constructor
     // Used when a new SmartPtr is created from an existing SmartPtr
