@@ -85,7 +85,7 @@ void ThreadBar() {
 
 int main() {
     std::cout << "If you see the same value, then singleton was reused (yay!\n"
-              << "If you see different values, then 2 singletons were created (booo!!)\n\n"
+              << "If you see different values, then 2 singletons were created (boo!!)\n\n"
               << "RESULT:\n";
     std::thread t1(ThreadFoo);
     std::thread t2(ThreadBar);

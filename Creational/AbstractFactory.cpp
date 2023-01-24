@@ -104,6 +104,7 @@ class AbstractFactory {
 public:
     [[nodiscard]] virtual SmartPtr<AbstractProductA> CreateProductA() const = 0;
     [[nodiscard]] virtual SmartPtr<AbstractProductB> CreateProductB() const = 0;
+    virtual ~AbstractFactory() = default;
 };
 
 /*
@@ -121,6 +122,7 @@ public:
     [[nodiscard]] SmartPtr<AbstractProductB> CreateProductB() const override {
         return SmartPtr<AbstractProductB>(new ConcreteProductB1());
     }
+    ~ConcreteFactory1() override = default;
 };
 
 /*
@@ -135,6 +137,7 @@ public:
     [[nodiscard]] SmartPtr<AbstractProductB> CreateProductB() const override {
         return SmartPtr<AbstractProductB>(new ConcreteProductB2());
     }
+    ~ConcreteFactory2() override = default;
 };
 
 /*
