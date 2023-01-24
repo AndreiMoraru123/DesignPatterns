@@ -49,7 +49,7 @@ protected:
      * existing subsystem objects or force the Facade to create them on its own.
      */
 public:
-    explicit Facade(SmartPtr<Subsystem1> subsystem1 = SmartPtr<Subsystem1>(nullptr), SmartPtr<Subsystem2> subsystem2 = SmartPtr<Subsystem2>(nullptr)) {
+    explicit Facade(const SmartPtr<Subsystem1>& subsystem1 = SmartPtr<Subsystem1>(nullptr), const SmartPtr<Subsystem2>& subsystem2 = SmartPtr<Subsystem2>(nullptr)) {
 //        if (!subsystem1) {
 //            this->subsystem1_ = SmartPtr<Subsystem1>(new Subsystem1);
 //        } else {
