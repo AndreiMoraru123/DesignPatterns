@@ -10,6 +10,7 @@
 class Subject {
 public:
     virtual void Request() const = 0;
+    virtual ~Subject() = default;
 };
 
 /*
@@ -51,7 +52,7 @@ public:
     explicit Proxy(SmartPtr<RealSubject> real_subject) : real_subject_(std::move(real_subject)) {}
 
     void Request() const override {
-        if (this->CheckAccess()) {
+        if (Proxy::CheckAccess()) {
             this->real_subject_->Request();
             Proxy::LogAccess();
         }
