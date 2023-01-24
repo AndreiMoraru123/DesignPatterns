@@ -10,6 +10,7 @@
 #include "../SmartPointer.h"
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 
@@ -18,7 +19,7 @@ public:
     std::vector<std::string> parts;
     void ListParts() const {
         std::cout << " Product parts: ";
-        for (auto part : parts) {
+        for (const auto& part : parts) {
             if (part == parts.back()){
                 std::cout << part;
             } else {
@@ -35,12 +36,14 @@ public:
  * the Product objects.
  */
 
+
 class Builder{
 public:
     virtual ~Builder() = default;
     virtual void ProducePartA() const = 0;
     virtual void ProducePartB() const = 0;
     virtual void ProducePartC() const = 0;
+    virtual SmartPtr<Product1> GetProduct() = 0;
 };
 
 /*
@@ -93,7 +96,7 @@ public:
      * client code before disposing of the previous result.
      */
 
-    SmartPtr<Product1> GetProduct() {
+    SmartPtr<Product1> GetProduct() override{
         SmartPtr<Product1> result = this->product;
         this->Reset();
         return result;
@@ -109,16 +112,16 @@ public:
 
 class Director{
 private:
-//    SmartPtr<Builder> builder;
-    Builder* builder;
+    SmartPtr<Builder> builder;
+//    Builder* builder;
     /*
      * The Director works with any builder instance that the client code passes
      * to it. This way, the client code may alter the final type of the newly
      * assembled product.
      */
 public:
-    void set_builder(Builder* builder) {
-        this->builder = builder;
+    void set_builder(SmartPtr<Builder> builder_) {
+        this->builder = std::move(builder_);
     }
     /*
      * The Director can construct several product variations using the same
@@ -143,8 +146,8 @@ public:
  */
 
 void ClientCode(Director &director) {
-    SmartPtr<ConcreteBuilder1> builder = static_cast<SmartPtr<ConcreteBuilder1>>(new ConcreteBuilder1());
-    director.set_builder(builder.get());
+    SmartPtr<Builder> builder = SmartPtr<Builder>(new ConcreteBuilder1());
+    director.set_builder(builder);
     std::cout << "Standard basic product:\n";
 
     director.BuildMinimalViableProduct();
