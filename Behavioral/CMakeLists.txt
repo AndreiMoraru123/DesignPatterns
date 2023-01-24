@@ -1,1 +1,2 @@
 add_executable(ChainOfResponsibility ChainOfResponsibility.cpp)
+add_executable(Command Command.cpp)
