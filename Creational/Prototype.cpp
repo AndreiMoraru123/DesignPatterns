@@ -24,16 +24,16 @@ enum Type {
 class Prototype {
 protected:
     std::string prototype_name;
-    float prototype_field;
+    float prototype_field{};
 
 public:
     Prototype() = default;
     explicit Prototype(std::string prototype_name) : prototype_name(std::move(prototype_name)) {};
     virtual ~Prototype() = default;
     [[nodiscard]] virtual SmartPtr<Prototype> Clone() const = 0;
-    virtual void Method(float prototype_field) {
-        this->prototype_field = prototype_field;
-        std::cout << "Call Method from " << prototype_name << " with field : " << prototype_field << std::endl;
+    virtual void Method(float prototypeField) {
+        this->prototype_field = prototypeField;
+        std::cout << "Call Method from " << prototype_name << " with field : " << prototypeField << std::endl;
     }
 };
 
@@ -69,7 +69,7 @@ public:
 };
 
 /*
- * In ProrotypeFactory, we have a map of prototypes. The key of the map is the
+ * In PrototypeFactory, we have a map of prototypes. The key of the map is the
  * type of the prototype. The value of the map is the prototype itself. The
  * PrototypeFactory has a method to add a new prototype to the map. The
  * PrototypeFactory has a method to return a clone of the prototype based on the
