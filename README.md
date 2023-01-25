@@ -1,6 +1,6 @@
 # Design Patterns
 
-Design Patterns implemented in C++, using a custom defined Smart Pointer.
+Design Patterns using a custom Smart Pointer.
 
 ## How to use the pointer
 
