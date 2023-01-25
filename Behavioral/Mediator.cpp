@@ -26,7 +26,6 @@ class BaseComponent {
 protected:
     SmartPtr<Mediator> mediator_;
 public:
-    virtual ~BaseComponent() = default;
     explicit BaseComponent(SmartPtr<Mediator> mediator = SmartPtr<Mediator>(nullptr) ): mediator_(std::move(mediator)) {}
     void set_mediator(SmartPtr<Mediator> mediator) {
         this->mediator_ = std::move(mediator);
@@ -39,30 +38,26 @@ public:
  */
 
 class Component1 : public BaseComponent {
-    SmartPtr<BaseComponent> self_;
 public:
-    explicit Component1() : self_(SmartPtr<BaseComponent>(this)) {}
     void DoA() {
         std::cout << "Component 1 does A.\n";
-        this->mediator_->Notify(self_, "A");
+        this->mediator_->Notify(SmartPtr<BaseComponent>(new Component1(*this)), "A");
     }
     void DoB() {
         std::cout << "Component 1 does B.\n";
-        this->mediator_->Notify(self_, "B");
+        this->mediator_->Notify(SmartPtr<BaseComponent>(new Component1(*this)), "B");
     }
 };
 
 class Component2 : public BaseComponent {
-    SmartPtr<BaseComponent> self_;
     public:
-    explicit Component2() : self_(SmartPtr<BaseComponent>(this)) {}
     void DoC() {
         std::cout << "Component 2 does C.\n";
-        this->mediator_->Notify(self_, "C");
+        this->mediator_->Notify(SmartPtr<BaseComponent>(new Component2(*this)), "C");
     }
     void DoD() {
         std::cout << "Component 2 does D.\n";
-        this->mediator_->Notify(self_, "D");
+        this->mediator_->Notify(SmartPtr<BaseComponent>(new Component2(*this)), "D");
     }
 };
 
@@ -75,7 +70,6 @@ class ConcreteMediator : public Mediator {
 private:
     SmartPtr<Component1> component1_;
     SmartPtr<Component2> component2_;
-    SmartPtr<Mediator> self_;
 public:
 
     ConcreteMediator(SmartPtr<Component1> c1, SmartPtr<Component2> c2) : component1_(std::move(c1)), component2_(std::move(c2)) {
