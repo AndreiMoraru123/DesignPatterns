@@ -10,7 +10,6 @@
 #include "../SmartPointer.h"
 #include <iostream>
 #include <string>
-#include <utility>
 #include <vector>
 
 
@@ -113,7 +112,6 @@ public:
 class Director{
 private:
     SmartPtr<Builder> builder;
-//    Builder* builder;
     /*
      * The Director works with any builder instance that the client code passes
      * to it. This way, the client code may alter the final type of the newly
