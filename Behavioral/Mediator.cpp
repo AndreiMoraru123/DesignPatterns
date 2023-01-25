@@ -77,14 +77,11 @@ private:
     SmartPtr<Component2> component2_;
     SmartPtr<Mediator> self_;
 public:
-    ConcreteMediator(SmartPtr<Component1> c1, SmartPtr<Component2> c2) : self_(this), component1_(std::move(c1)), component2_(std::move(c2)) {
-        this->component1_->set_mediator(self_);
-        this->component2_->set_mediator(self_);
+
+    ConcreteMediator(SmartPtr<Component1> c1, SmartPtr<Component2> c2) : component1_(std::move(c1)), component2_(std::move(c2)) {
+        this->component1_->set_mediator(SmartPtr<Mediator>(new ConcreteMediator(*this)));
+        this->component2_->set_mediator(SmartPtr<Mediator>(new ConcreteMediator(*this)));
     }
-//    ConcreteMediator(SmartPtr<Component1> c1, SmartPtr<Component2> c2) : component1_(std::move(c1)), component2_(std::move(c2)) {
-//        this->component1_->set_mediator(SmartPtr<Mediator>(this));
-//        this->component2_->set_mediator(SmartPtr<Mediator>(this));
-//    }
 
     void Notify(SmartPtr<BaseComponent> sender, const std::string& event) const override {
         if (event == "A") {
@@ -105,6 +102,7 @@ void ClientCode() {
     SmartPtr<ConcreteMediator> mediator = SmartPtr<ConcreteMediator>(new ConcreteMediator(c1, c2));
     std::cout << "Client triggers operation A.\n";
     c1->DoA();
+    std::cout << "\n";
     std::cout << "Client triggers operation D.\n";
     c2->DoD();
 }
