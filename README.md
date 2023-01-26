@@ -82,7 +82,7 @@ std::cout << "Use count for derivedPtr: " << derivedPtr.use_count();  // Use cou
 #### And, most importantly, you do not have to call ```delete```.
 
 > **Note**
-> These will only work with C++ 11 onwards.
+> These will only work with C++11 onwards.
 
 > **Warning**
 > May have ridiculous overhead and unnecesarry complexity as they are just for experimentation.
