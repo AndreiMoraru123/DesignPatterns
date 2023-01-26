@@ -4,6 +4,8 @@
 
 Design Patterns using a custom Smart Pointer.
 
+Adapted from [refactoring.guru](https://refactoring.guru/).
+
 ## How to use the pointer
 
 #### Allocating an integer to the heap
@@ -84,5 +86,3 @@ std::cout << "Use count for derivedPtr: " << derivedPtr.use_count();  // Use cou
 
 > **Warning**
 > May have ridiculous overhead and unnecesarry complexity as they are just for experimentation.
-
-Adapted from [refactoring.guru](https://refactoring.guru/).
