@@ -29,7 +29,7 @@ public:
     //          SmartPtr<int> ptr2 = std::move(ptr1);
     SmartPtr(SmartPtr<T>&& other) noexcept : ptr(other.ptr), ref_count(other.ref_count) {
         other.ptr = nullptr;
-        other.ref_count = new int(0);
+        other.ref_count = nullptr;
     }
 
     // Destructor
