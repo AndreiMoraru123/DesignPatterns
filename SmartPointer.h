@@ -122,7 +122,7 @@ public:
             ptr = other.ptr;
             ref_count = other.ref_count;
             other.ptr = nullptr;
-            other.ref_count = new int(1);
+            other.ref_count = new int(0);
         }
         return *this;
     }
