@@ -49,7 +49,7 @@ std::cout << "Use count for ptr2: " << ptr2.use_count();  // Use count: 2
 std::cout << "Use count for ptr3: " << ptr3.use_count();  // Use count: 2
 ```
 
-#### Supports casting:
+#### (Somewhat) Supports casting:
 
 ```cpp
 class Base {
