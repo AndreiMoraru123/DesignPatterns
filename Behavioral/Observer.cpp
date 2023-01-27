@@ -93,13 +93,12 @@ public:
 
 class Observer : public IObserver {
     std::string message_from_subject_;
-//    Subject& subject_;
-    SmartPtr<Subject> subject_;
+    Subject& subject_;
     static int static_number_;
     int number_;
 public:
-    explicit Observer(SmartPtr<Subject>& subject) : subject_(subject) {
-        this->subject_->Attach(SmartPtr<IObserver>(new Observer(*this)));
+    explicit Observer(Subject& subject) : subject_(subject) {
+        this->subject_.Attach(SmartPtr<IObserver>(new Observer(*this)));
         std::cout << "Hi, I'm the Observer \"" << ++Observer::static_number_ << "\".\n";
         number_ = Observer::static_number_;
     }
@@ -112,7 +111,7 @@ public:
         PrintInfo();
     }
     void RemoveMeFromTheList() {
-        subject_->Detach(SmartPtr<IObserver>(new Observer(*this)));
+        subject_.Detach(SmartPtr<IObserver>(new Observer(*this)));
         std::cout << "Observer \"" << this->number_ << "\" removed from the list.\n";
     }
     void PrintInfo() {
@@ -124,9 +123,9 @@ int Observer::static_number_ = 0;
 
 void ClientCode() {
     SmartPtr<Subject> subject = SmartPtr<Subject>(new Subject);
-    SmartPtr<Observer> observer1 = SmartPtr<Observer>(new Observer(subject));
-    SmartPtr<Observer> observer2 = SmartPtr<Observer>(new Observer(subject));
-    SmartPtr<Observer> observer3 = SmartPtr<Observer>(new Observer(subject));
+    SmartPtr<Observer> observer1 = SmartPtr<Observer>(new Observer(*subject));
+    SmartPtr<Observer> observer2 = SmartPtr<Observer>(new Observer(*subject));
+    SmartPtr<Observer> observer3 = SmartPtr<Observer>(new Observer(*subject));
     SmartPtr<Observer> observer4;
     SmartPtr<Observer> observer5;
 
@@ -134,10 +133,10 @@ void ClientCode() {
     observer3->RemoveMeFromTheList();
 
     subject->CreateMessage("The weather is hot today! :p");
-    observer4 = SmartPtr<Observer>(new Observer(subject));
+    observer4 = SmartPtr<Observer>(new Observer(*subject));
 
     observer2->RemoveMeFromTheList();
-    observer5 = SmartPtr<Observer>(new Observer(subject));
+    observer5 = SmartPtr<Observer>(new Observer(*subject));
 
     subject->CreateMessage("My new car is great! ;)");
     observer5->RemoveMeFromTheList();
