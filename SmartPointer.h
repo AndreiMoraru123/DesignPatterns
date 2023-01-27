@@ -13,7 +13,7 @@ template <class T>
 class SmartPtr {
     T *ptr;
 public:
-    int *ref_count;
+    int *ref_count{};
     // Constructors
     // The default constructor initializes the pointer with nullptr
     // Example: SmartPtr<int> ptr;
