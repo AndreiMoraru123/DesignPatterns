@@ -103,7 +103,7 @@ public:
         number_ = Observer::static_number_;
     }
     ~Observer() override {
-        std::cout << "Goodbye, I was the Observer \"" << this->number_ << "\".\n";
+        std::cout << "Goodbye, I was the Observer \"" << number_ << "\".\n";
     }
 
     void Update(const std::string& message_from_subject) override {
@@ -112,10 +112,10 @@ public:
     }
     void RemoveMeFromTheList() {
         subject_.Detach(SmartPtr<IObserver>(new Observer(*this)));
-        std::cout << "Observer \"" << this->number_ << "\" removed from the list.\n";
+        std::cout << "Observer \"" << number_ << "\" removed from the list.\n";
     }
     void PrintInfo() {
-        std::cout << "Observer \"" << this->number_ << "\": a new message is available --> " << this->message_from_subject_ << "\n";
+        std::cout << "Observer \"" << number_ << "\": a new message is available --> " << this->message_from_subject_ << "\n";
     }
 };
 
