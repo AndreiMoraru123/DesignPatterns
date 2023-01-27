@@ -54,11 +54,9 @@ public:
         list_observer_.remove(observer);
     }
     void Notify() override {
-        auto iterator = list_observer_.begin();
         HowManyObserver();
-        while (iterator != list_observer_.end()) {
-            (*iterator)->Update(message_);
-            ++iterator;
+        for (auto& observer : list_observer_) {
+            observer->Update(message_);
         }
     }
 
