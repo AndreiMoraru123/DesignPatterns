@@ -8,6 +8,8 @@
 #include <typeinfo>
 #include <utility>
 #include <cstddef>
+#include <memory>
+#include <atomic>
 
 template <class T>
 class SmartPtr {
@@ -43,6 +45,19 @@ public:
             }
         }
     }
+
+    // ----------------- Shared Pointer Methods -----------------
+    template<typename U>
+    explicit SmartPtr(const std::shared_ptr<U> &other) : ptr(new T(*other.get())), ref_count(new int) {
+        *ref_count = other.use_count();
+    }
+
+
+    explicit SmartPtr(std::shared_ptr<T> &&other) : ptr(other.get()), ref_count(new int(1)) {
+        ref_count = other.use_count();
+        other.reset();
+    }
+    // ----------------- Shared Pointer Methods -----------------
 
 
     // Overloading == operator
